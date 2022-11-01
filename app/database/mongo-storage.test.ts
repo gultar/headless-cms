@@ -10,7 +10,7 @@ const article: Article = {
     body:"This is a test article",
     author:"Sacha-Olivier Dulac",
     created:Date.now(),
-    id: Date.now()
+    id: 1
 }
 
 const db = new MongoStorage("Test")
@@ -57,6 +57,14 @@ Deno.test("Mongo Storage", async(test)=>{
 
     await test.step("Deletes article", async ()=>{
         await db.delete(article.id, collectionName)
+    })
+
+    await test.step("Check count", async ()=>{
+        assertEquals(await db.getNumberOfEntries(collectionName), 1)
+    })
+
+    await test.step("Delete everything", async ()=>{
+        console.log(await db.deleteAll(collectionName))
     })
 
 

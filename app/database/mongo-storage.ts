@@ -43,6 +43,12 @@ export class MongoStorage{
         return (entryFound !== undefined ? true : false)
     }
 
+    async getNumberOfEntries(collectionName:string){
+        const collection = this.retrieveCollection(collectionName)
+        const count = await collection.countDocuments()
+        return count
+    }
+
     retrieveCollection(collectionName: string): Collection<any>{
         if(!this.hasCollection(collectionName)) throw Error(`Collection named ${collectionName} does not exist`)
         const collection = this.database.collection(collectionName)
@@ -50,7 +56,11 @@ export class MongoStorage{
     }
 
     async add(entry: Record<string, any>, collectionName:string): Promise<any>{
-        if(entry.id === undefined) throw Error("Entry needs ID")
+        if(entry.id === undefined){
+            const numberOfEntries = await this.getNumberOfEntries(collectionName)
+            entry.id = numberOfEntries + 1
+        }
+        
         const collection = this.retrieveCollection(collectionName)
         const uuid = await collection.insertOne(entry);
 
@@ -98,6 +108,12 @@ export class MongoStorage{
         const deleted = await collection.deleteOne({ id: id });
 
         return { isDeleted:deleted, entry:entryBackup }
+    }
+
+    async deleteEverything(collectionName: string){
+        //Dangerous
+        const collection = this.retrieveCollection(collectionName)
+        return await collection.deleteMany({})
     }
 
     closeConnection(){
