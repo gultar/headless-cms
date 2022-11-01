@@ -52,19 +52,20 @@ Deno.test("Mongo Storage", async(test)=>{
         const existingArticle = await db.get(article.id,  collectionName)
         if(existingArticle == undefined) throw "Article to update not found"
         existingArticle.body = "This is a modified test article"
-        const isUpdated = await db.update(article, collectionName)
-    })
-
-    await test.step("Deletes article", async ()=>{
-        await db.delete(article.id, collectionName)
+        await db.update(article, collectionName)
     })
 
     await test.step("Check count", async ()=>{
         assertEquals(await db.getNumberOfEntries(collectionName), 1)
     })
 
+    await test.step("Deletes article", async ()=>{
+        await db.delete(article.id, collectionName)
+    })
+
     await test.step("Delete everything", async ()=>{
-        console.log(await db.deleteAll(collectionName))
+        await db.add(article, collectionName)
+        console.log(await db.deleteEverything(collectionName))
     })
 
 

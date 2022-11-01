@@ -1,9 +1,8 @@
 import { Application } from "https://deno.land/x/oak/mod.ts";
 import router from './router/router.ts'
 
-const run = async () =>{
+const run = async (port=8000) =>{
     const app = new Application();
-    const port = 8000
     
     app.use(router.allowedMethods());
     app.use(router.routes());

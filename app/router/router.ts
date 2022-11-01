@@ -14,7 +14,7 @@ const router = new Router();
 router
     
     .get("/", (ctx) => {
-        ctx.response.body = "HEADLESS API\nVERSION: 0.1"
+        ctx.response.body = "RESTful API\nVERSION: 0.1"
     })
     .use(httpErrorHandler)
     .get("/articles", async (ctx) => await getArticlesHandler(ctx))

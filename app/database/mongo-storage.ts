@@ -33,12 +33,12 @@ export class MongoStorage{
         return this.database.listCollectionNames()
     }
 
-    hasCollection(collectionName: string): Boolean{
+    hasCollection(collectionName: string): boolean{
         const collectionExists = this.database.collection(collectionName)
         return (collectionExists? true : false)
     }
 
-    async hasEntry(id: number, collectionName: string): Promise<Boolean>{
+    async hasEntry(id: number, collectionName: string): Promise<boolean>{
         const entryFound = await this.get(id, collectionName)
         return (entryFound !== undefined ? true : false)
     }
