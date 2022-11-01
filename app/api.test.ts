@@ -6,7 +6,7 @@ Deno.test("REST API", async (test)=>{
         title:"Test article",
         body:"This is a test article",
         author:"Sacha-Olivier Dulac",
-        id:1,
+        id:Date.now(),
         created:Date.now()
     }
 

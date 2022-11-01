@@ -4,7 +4,7 @@ import { getArticle, getArticles, postArticle, putArticle, deleteArticle } from 
 
 const isValidArticle = (article: Record<string, string>) =>{
     if(article === undefined) return false
-    else if(article.id === undefined) return false
+    if(article.id === undefined) return false
     else if(article.title === undefined || typeof article.title !== 'string') return false
     else if(article.body === undefined || typeof article.body !== 'string') return false
     else if(typeof article.id !== 'string' && typeof article.id !== 'number') return false

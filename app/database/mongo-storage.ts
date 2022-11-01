@@ -7,17 +7,20 @@ import {
 export class MongoStorage{
     private client!: MongoClient
     private database!: Database
+    private idStorage!: Collection<any>
+    private knownIds!: Array<number>
     dbName: string
+
 
     constructor(dbName: string){
         this.dbName = dbName;
-        
     }
 
     async start(mongoIp="mongodb://127.0.0.1:27017"){
         this.client = new MongoClient()
         await this.client.connect(mongoIp) //By default 
         this.database = this.client.database(this.dbName)
+        this.idStorage = this.createCollection("IdStore")
         return this.client
     }
 
